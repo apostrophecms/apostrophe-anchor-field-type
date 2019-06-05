@@ -1,0 +1,22 @@
+{
+  "name": "apostrophe-anchor-field",
+  "version": "1.0.0",
+  "description": "Adds a field type to apostrophe-schemas that populates a select with ID attributes on the current page",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "apostrophecms",
+    "apostrophe"
+  ],
+  "author": "P'unk Avenue, LLC",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "lodash": "^4.17.11"
+  }
+}
