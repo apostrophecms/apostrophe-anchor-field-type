@@ -15,13 +15,15 @@ apos.define('apostrophe-schemas', {
         var remotes = {};
         var newChoices;
 
-        if (_.isString(field.remoteIdsFields)) {
+        if (_.isString(field.remoteIdsFields) || (!Array.isArray(field.remoteIdsFields) && typeof field.remoteIdsFields === 'object')) {
           setupOptions([field.remoteIdsFields]);
-        } else {
+        } else if (_.isArray(field.remoteIdsFields)) {
           setupOptions(field.remoteIdsFields);
+        } else {
+          console.error('Expected remoteIdsFields to be a string, array, or object.');
         }
 
-        getChoices();
+        getInitialChoices();
         addFetchListener($field);
 
         function setupOptions(array) {
@@ -35,7 +37,7 @@ apos.define('apostrophe-schemas', {
                 remotes[item].fieldType = 'join';
                 remotes[item].urlType = 'relative';
               } else {
-                remotes[item].fieldType = 'external';
+                remotes[item].fieldType = 'string';
                 remotes[item].urlType = 'absolute';
               }
             } else {
@@ -44,6 +46,10 @@ apos.define('apostrophe-schemas', {
                 remotes[item.fieldName] = {
                   ...item
                 };
+              } else {
+                console.error('If using explicit configuration, expects fieldName property');
+                console.error('See https://github.com/apostrophecms/apostrophe-id-field-type');
+                return;
               }
             }
           });
@@ -63,6 +69,12 @@ apos.define('apostrophe-schemas', {
         function addFetchListener() {
           var $fetch = $field.siblings('[data-id-fetch]');
           $fetch.on('click', getChoices)
+        }
+
+        function getInitialChoices() {
+          setTimeout(() => {
+            getChoices();
+          }, 500);
         }
 
         function getChoices() {
