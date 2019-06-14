@@ -1,2 +1,20 @@
-{%- import "macros.html" as schemas -%}
-{{ schemas.select(data) }}
+{%- import "apostrophe-schemas:fieldset.html" as fieldset with context -%}
+
+{% macro selectBody(args) %}
+  <div class="apos-field-input-select-wrapper">
+    <button class="apos-id-field-fetch" data-id-fetch>Refresh anchor choices</button>
+    <select name="{{ args.name }}" class="apos-field-input apos-field-input-select{% if options.fieldClasses %} {{ options.fieldClasses }}{% endif %}"{% if readOnly %} disabled{% endif %}{% if options.fieldAttributes %} {{ options.fieldAttributes }}{% endif %}>
+      {%- for option in args.options -%}
+        <option {{ "selected" if option.value == selected }} value="{{ option.value }}">{{ __(option.label | d('')) }}</option>
+      {%- endfor -%}
+    </select>
+  </div>
+{% endmacro %}
+
+{%- macro select(field) -%}
+  {%- set selectMultiple = ' apos-fieldset-selectize' if field.selectMultiple else '' -%}
+  {% set selectFields = ' apos-fieldset-select-show-fields' if apos.utils.containsProperty(field.choices, 'showFields') else '' %}
+  {{ fieldset.render(field | merge({ classes: selectMultiple + selectFields }), selectBody) }}
+{%- endmacro -%}
+
+{{ select(data) }}

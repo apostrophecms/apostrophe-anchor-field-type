@@ -12,9 +12,8 @@ apos.define('apostrophe-schemas', {
         }
 
         var $form = $field.parents('[data-apos-form]');
-        var observerConfig = { attributes: false, childList: true, subtree: false };
         var remotes = {};
-        var observer;
+        var newChoices;
 
         if (_.isString(field.remoteIdsFields)) {
           setupOptions([field.remoteIdsFields]);
@@ -22,9 +21,9 @@ apos.define('apostrophe-schemas', {
           setupOptions(field.remoteIdsFields);
         }
 
-        setupObservers(remotes)
+        getChoices();
+        addFetchListener($field);
 
-        
         function setupOptions(array) {
           array.forEach(function(item) {
             // shorthand, fieldname string
@@ -48,12 +47,7 @@ apos.define('apostrophe-schemas', {
               }
             }
           });
-        }
-
-        function setupObservers(remotes) {
-          observer = new MutationObserver(function(mutationsList, observer) {
-            return getChoices(mutationsList, observer);
-          });
+          // get jquery objs
           for (var remoteName in remotes) {
             var $remoteField = $form.find('[data-name="'+ remoteName +'"]');
             var $observable;
@@ -61,27 +55,26 @@ apos.define('apostrophe-schemas', {
               $observable = $remoteField.find('[data-choices]');
             } else {
               $observable = $remoteField.find(':input');
-              $observable.on('keyup', function() {
-                getChoices([ { target: $observable.get(0) } ]);
-              });
             }
             remotes[remoteName].$observable = $observable;
-            observer.observe($observable.get(0), observerConfig);
           }
         }
 
-        function getChoices(mutationsList) {
+        function addFetchListener() {
+          var $fetch = $field.siblings('[data-id-fetch]');
+          $fetch.on('click', getChoices)
+        }
+
+        function getChoices() {
           var current;
           var key;
           var options;
 
-          mutationsList.forEach(function(mutation) {
-            for (var remoteName in remotes) {
-              if (mutation.target === remotes[remoteName].$observable.get(0)) {
-                current = remotes[remoteName];
-              }
+          for (var remoteName in remotes) {
+            if (remotes[remoteName].$observable.is(':visible')) {
+              current = remotes[remoteName]
             }
-          })
+          }
 
           if (current.fieldType === 'join') {
             key = current.$observable.find('[data-chooser-choice]:first').attr('data-chooser-choice');  
@@ -100,8 +93,9 @@ apos.define('apostrophe-schemas', {
           };
 
           delete options.$observable;
+
           self.api('get-choices', options, function (data) {
-            field.choices = data;
+            newChoices = data
             clearChoices();
             populateChoices(data);
             populateValue()
@@ -126,12 +120,11 @@ apos.define('apostrophe-schemas', {
         }
 
         function populateValue() {
-          if (field.choices) {
-            value = ((data[name] === undefined) && field.choices[0]) ? field.choices[0].value : data[name];  
+          if (newChoices) {
+            value = ((data[name] === undefined) && newChoices[0]) ? newChoices[0].value : data[name];  
           } else {
             value = 'Nothing set';
           }
-
           $field.val(value);
         }
 

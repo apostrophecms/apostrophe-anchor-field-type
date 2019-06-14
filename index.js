@@ -7,6 +7,7 @@ module.exports = {
   afterConstruct: function (self) {
     self.addFieldAnchorType();
     self.pushAsset('script', 'idField', { when: 'user' });
+    self.pushAsset('stylesheet', 'idField', { when: 'user' });
     self.addRoutes();
   },
 
@@ -45,16 +46,27 @@ module.exports = {
           }
 
           var $ = cheerio.load(page.data)
-          var choices = [];
+          var choices = [
+            { label: '', value: '' }
+          ];
+
           $('[id]').each(function() {
             choices.push({
-              label: $(this).attr('id'),
+              label: 'ID: ' + $(this).attr('id'),
               value: $(this).attr('id')
             })
-          })
+          });
+
+          $('[name]').each(function() {
+            choices.push({
+              label: 'Name: ' + $(this).attr('name'),
+              value: $(this).attr('name')
+            })
+          });
+
           return res.json(choices);
         } catch (error) {
-          console.log(error);
+          return res.json({ error: error })
         }
       });
     }
