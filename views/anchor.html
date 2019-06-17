@@ -2,7 +2,7 @@
 
 {% macro selectBody(args) %}
   <div class="apos-field-input-select-wrapper">
-    <button class="apos-id-field-fetch" data-id-fetch>Refresh anchor choices</button>
+    <button class="apos-anchor-field-fetch" data-anchor-fetch>Refresh anchor choices</button>
     <select name="{{ args.name }}" class="apos-field-input apos-field-input-select{% if options.fieldClasses %} {{ options.fieldClasses }}{% endif %}"{% if readOnly %} disabled{% endif %}{% if options.fieldAttributes %} {{ options.fieldAttributes }}{% endif %}>
       {%- for option in args.options -%}
         <option {{ "selected" if option.value == selected }} value="{{ option.value }}">{{ __(option.label | d('')) }}</option>

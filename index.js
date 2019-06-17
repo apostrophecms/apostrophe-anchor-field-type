@@ -6,8 +6,8 @@ module.exports = {
   improve: 'apostrophe-schemas',
   afterConstruct: function (self) {
     self.addFieldAnchorType();
-    self.pushAsset('script', 'idField', { when: 'user' });
-    self.pushAsset('stylesheet', 'idField', { when: 'user' });
+    self.pushAsset('script', 'anchorField', { when: 'user' });
+    self.pushAsset('stylesheet', 'anchorField', { when: 'user' });
     self.addRoutes();
   },
 

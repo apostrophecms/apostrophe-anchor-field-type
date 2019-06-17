@@ -1,7 +1,7 @@
 {
-  "name": "apostrophe-id-field-type",
+  "name": "apostrophe-anchor-field-type",
   "version": "1.0.0",
-  "description": "Adds a field type to apostrophe-schemas that populates a select with ID attributes on the current page",
+  "description": "Adds an `anchor` field type to apostrophe-schemas that populates a select with ID and name attributes from a target URL",
   "main": "index.js",
   "directories": {
     "lib": "lib"

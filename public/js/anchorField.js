@@ -2,12 +2,12 @@ apos.define('apostrophe-schemas', {
 
   construct: function (self, options) {
     self.addFieldType({
-      name: 'id',
+      name: 'anchor',
       populate: function (data, name, $field, $el, field, callback) {
 
-        if (!field.remoteIdsFields) {
+        if (!field.remoteAnchorsFields) {
           console.warn('This field requires a joinByOne field to watch');
-          console.warn('Set the property `remoteIdsField` to the field name');
+          console.warn('Set the property `remoteAnchorsFields` to the field name');
           return setImmediate(callback);
         }
 
@@ -15,12 +15,12 @@ apos.define('apostrophe-schemas', {
         var remotes = {};
         var newChoices;
 
-        if (_.isString(field.remoteIdsFields) || (!Array.isArray(field.remoteIdsFields) && typeof field.remoteIdsFields === 'object')) {
-          setupOptions([field.remoteIdsFields]);
-        } else if (_.isArray(field.remoteIdsFields)) {
-          setupOptions(field.remoteIdsFields);
+        if (_.isString(field.remoteAnchorsFields) || (!Array.isArray(field.remoteAnchorsFields) && typeof field.remoteAnchorsFields === 'object')) {
+          setupOptions([field.remoteAnchorsFields]);
+        } else if (_.isArray(field.remoteAnchorsFields)) {
+          setupOptions(field.remoteAnchorsFields);
         } else {
-          console.error('Expected remoteIdsFields to be a string, array, or object.');
+          console.error('Expected remoteAnchorsFields to be a string, array, or object.');
         }
 
         getInitialChoices();
@@ -48,7 +48,7 @@ apos.define('apostrophe-schemas', {
                 };
               } else {
                 console.error('If using explicit configuration, expects fieldName property');
-                console.error('See https://github.com/apostrophecms/apostrophe-id-field-type');
+                console.error('See https://github.com/apostrophecms/apostrophe-anchor-field-type');
                 return;
               }
             }
@@ -67,7 +67,7 @@ apos.define('apostrophe-schemas', {
         }
 
         function addFetchListener() {
-          var $fetch = $field.siblings('[data-id-fetch]');
+          var $fetch = $field.siblings('[data-anchor-fetch]');
           $fetch.on('click', getChoices)
         }
 
