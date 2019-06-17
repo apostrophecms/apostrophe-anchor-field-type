@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/apostrophecms/apostrophe-id-field-type.git"
+    "url": "git+https://github.com/apostrophecms/apostrophe-anchor-field-type.git"
   },
   "author": "P'unk Avenue, LLC",
   "license": "MIT",
