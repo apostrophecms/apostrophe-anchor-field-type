@@ -1,6 +1,6 @@
 {
   "name": "apostrophe-anchor-field-type",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adds an `anchor` field type to apostrophe-schemas that populates a select with ID and name attributes from a target URL",
   "main": "index.js",
   "directories": {
@@ -22,7 +22,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "cheerio": "^1.0.0-rc.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "validator": "^11.0.0"
   }
 }
