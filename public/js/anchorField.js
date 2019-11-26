@@ -43,9 +43,7 @@ apos.define('apostrophe-schemas', {
             } else {
               // longform options
               if (item.fieldName) {
-                remotes[item.fieldName] = {
-                  ...item
-                };
+                remotes[item.fieldName] = item;
               } else {
                 console.error('If using explicit configuration, expects fieldName property');
                 console.error('See https://github.com/apostrophecms/apostrophe-anchor-field-type');
@@ -72,7 +70,7 @@ apos.define('apostrophe-schemas', {
         }
 
         function getInitialChoices() {
-          setTimeout(() => {
+          setTimeout(function() {
             getChoices();
           }, 500);
         }
@@ -99,10 +97,8 @@ apos.define('apostrophe-schemas', {
             return populateChoices([])
           }
 
-          options = {
-            key: key,
-            ...current
-          };
+          options = current;
+          options[key] = key;
 
           delete options.$observable;
 
