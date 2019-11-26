@@ -1,6 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const isUrl = require('validator/lib/isUrl');
+const { isUrl }  = require('validator');
 
 module.exports = {
   improve: 'apostrophe-schemas',
