@@ -80,9 +80,6 @@ apos.define('apostrophe-schemas', {
           var key;
           var options;
 
-          console.log('getChoices - 0', remotes);
-          console.log('getChoices - 1', remotes['_page']);
-          console.log('getChoices - 2', remotes['_page'].$observable);
           for (var remoteName in remotes) {
             if (remotes[remoteName].$observable.is(':visible')) {
               current = remotes[remoteName]
@@ -90,7 +87,7 @@ apos.define('apostrophe-schemas', {
           }
 
           if (current.fieldType === 'join') {
-            key = current.$observable.find('[data-chooser-choice]:first').attr('data-chooser-choice');  
+            key = current.$observable.find('[data-chooser-choice]:first').attr('data-chooser-choice');
           } else {
             key = current.$observable.val();
           }
@@ -132,7 +129,7 @@ apos.define('apostrophe-schemas', {
 
         function populateValue() {
           if (newChoices) {
-            value = ((data[name] === undefined) && newChoices[0]) ? newChoices[0].value : data[name];  
+            value = ((data[name] === undefined) && newChoices[0]) ? newChoices[0].value : data[name];
           } else {
             value = 'Nothing set';
           }
