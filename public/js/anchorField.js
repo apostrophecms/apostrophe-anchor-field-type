@@ -80,6 +80,9 @@ apos.define('apostrophe-schemas', {
           var key;
           var options;
 
+          console.log('getChoices - 0', remotes);
+          console.log('getChoices - 1', remotes['_page']);
+          console.log('getChoices - 2', remotes['_page'].$observable);
           for (var remoteName in remotes) {
             if (remotes[remoteName].$observable.is(':visible')) {
               current = remotes[remoteName]
@@ -97,8 +100,8 @@ apos.define('apostrophe-schemas', {
             return populateChoices([])
           }
 
-          options = current;
-          options[key] = key;
+          options = _.clone(current);
+          options.key = key;
 
           delete options.$observable;
 
@@ -139,7 +142,7 @@ apos.define('apostrophe-schemas', {
         return setImmediate(callback);
       },
       convert: function (data, name, $field, $el, field, callback) {
-        data[name] = $field.val();        
+        data[name] = $field.val();
         if (field.required && (!(data[name] && data[name].length))) {
           return setImmediate(_.partial(callback, 'required'));
         }
