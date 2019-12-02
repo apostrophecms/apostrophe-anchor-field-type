@@ -34,7 +34,9 @@ module.exports = {
           if (type === 'join') {
             var criteria = { _id: key };
             var doc = await self.apos.pages.find(req, criteria, { _url: 1 }).toObject();
-            page = await axios.get(req.baseUrlWithPrefix + doc._url);
+
+            let targetURL = isURL(doc._url, { allow_protocol_relative_urls: true }) ? doc._url : req.baseUrlWithPrefix + doc._url
+            page = await axios.get(targetURL);
           } else {
             // if invalid url, bail
             if (!isUrl(key)) {

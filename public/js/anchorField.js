@@ -87,7 +87,7 @@ apos.define('apostrophe-schemas', {
           }
 
           if (current.fieldType === 'join') {
-            key = current.$observable.find('[data-chooser-choice]:first').attr('data-chooser-choice');  
+            key = current.$observable.find('[data-chooser-choice]:first').attr('data-chooser-choice');
           } else {
             key = current.$observable.val();
           }
@@ -97,8 +97,8 @@ apos.define('apostrophe-schemas', {
             return populateChoices([])
           }
 
-          options = current;
-          options[key] = key;
+          options = _.clone(current);
+          options.key = key;
 
           delete options.$observable;
 
@@ -129,7 +129,7 @@ apos.define('apostrophe-schemas', {
 
         function populateValue() {
           if (newChoices) {
-            value = ((data[name] === undefined) && newChoices[0]) ? newChoices[0].value : data[name];  
+            value = ((data[name] === undefined) && newChoices[0]) ? newChoices[0].value : data[name];
           } else {
             value = 'Nothing set';
           }
@@ -139,7 +139,7 @@ apos.define('apostrophe-schemas', {
         return setImmediate(callback);
       },
       convert: function (data, name, $field, $el, field, callback) {
-        data[name] = $field.val();        
+        data[name] = $field.val();
         if (field.required && (!(data[name] && data[name].length))) {
           return setImmediate(_.partial(callback, 'required'));
         }
