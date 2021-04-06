@@ -62,6 +62,6 @@ Spells out what is assumed in shorthand syntax.
 
 ## Changelog
 
-### Unreleased
+### 1.0.3 (2021-04-07)
 
 - Updates axios version due to security patch.
